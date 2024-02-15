@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-export default function FCRegister() {
+export default function Register() {
 
 
     const [userName, setUserName] = useState('');

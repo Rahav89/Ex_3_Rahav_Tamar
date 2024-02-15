@@ -1,15 +1,16 @@
 import './App.css'
-import FCLogin from './FCComps/FCLogin'
-import FCProflie from './FCComps/FCProflie'
-import FCRegister from './FCComps/FCRegister'
+import Login from './FCComps/Login'
+import Proflie from './FCComps/Proflie'
+import Register from './FCComps/Register'
+
 
 function App() {
 
   return (
     <>
-      <FCRegister />
-      <FCLogin />
-      <FCProflie />
+      <Register />
+      <Login />
+      <Proflie />
     </>
   )
 }
