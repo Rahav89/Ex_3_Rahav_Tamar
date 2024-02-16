@@ -47,8 +47,7 @@ function validatePassword(password) {
 export default function Register() {
     //צאק בוקס של צפייה בסיסמא
     const [showPassword, setShowPassword] = React.useState(false);
-
-    // אובייקט של הטופס
+   // אובייקט של הטופס
     const [formData, setFormData] = React.useState({
         userName: '',
         firstName: '',
@@ -63,7 +62,6 @@ export default function Register() {
         streetName: '',
         numberHome: 0,
     });
-
     //בדיקת שגיאות
     const [formErrors, setFormErrors] = React.useState({
         userName: false,
@@ -78,13 +76,12 @@ export default function Register() {
         streetName: false,
         numberHome: false,
     });
-
-    // פונקציה המטפלת בצאק בוקס של הסיסמא
+// פונקציה המטפלת בצאק בוקס של הסיסמא
     const handleCheckboxChange = () => {
         setShowPassword(!showPassword);
     };
 
-    //פונקציה המטפלת בכפתור הסדמיט
+//פונקציה המטפלת בכפתור הסדמיט
     const handleSubmit = (event) => {
         event.preventDefault();
         const { email, password } = formData;
@@ -94,6 +91,7 @@ export default function Register() {
 
         // Check if password matches verifyPassword
         const isPasswordMatch = formData.password === formData.verifyPassword;
+
 
         setFormErrors({
             userName: !isUserNameValid,
@@ -110,7 +108,6 @@ export default function Register() {
         }
     };
 
-    
     const handleChange = (event) => {
         const { name, value, type, checked } = event.target;
 
