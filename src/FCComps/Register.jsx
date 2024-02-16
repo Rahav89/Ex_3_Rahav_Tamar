@@ -40,6 +40,7 @@ function validatePassword(password) {
     );
 }
 
+
 export default function Register() {
     const [showPassword, setShowPassword] = React.useState(false);
     const [formData, setFormData] = React.useState({
@@ -52,6 +53,7 @@ export default function Register() {
         allowExtraEmails: false,
         photoUser: null,
         dateUser: '',
+        countryUser: '',
     });
     const [formErrors, setFormErrors] = React.useState({
         userName: false,
@@ -62,6 +64,7 @@ export default function Register() {
         verifyPassword: false,
         photoUser: '',
         dateUser: false,
+        countryUser: false
     });
 
     const handleCheckboxChange = () => {
@@ -82,7 +85,7 @@ export default function Register() {
             userName: !isUserNameValid,
             email: !isEmailValid,
             password: !isPasswordValid,
-            verifyPassword: !isPasswordMatch, // Set verifyPassword error state
+            verifyPassword: !isPasswordMatch,
         });
 
         if (isEmailValid && isPasswordValid && isUserNameValid && isPasswordMatch) {
@@ -95,27 +98,13 @@ export default function Register() {
 
     const handleChange = (event) => {
         const { name, value, type, checked } = event.target;
+
         const val = type === 'checkbox' ? checked : value;
         setFormData((prevData) => ({
             ...prevData,
             [name]: val,
         }));
 
-        // Perform validation
-        if (name === 'firstName' && value === '') {
-            setFormErrors({
-                ...formErrors,
-                firstName: true
-            });
-            return;
-        }
-        if (name === 'lastName' && value === '') {
-            setFormErrors({
-                ...formErrors,
-                lastName: true
-            });
-            return;
-        }
 
         // If the input type is 'file', validate the file type
         if (type === 'file') {
@@ -249,7 +238,6 @@ export default function Register() {
                                     autoFocus
                                     value={formData.firstName}
                                     onChange={handleChange}
-                                    error={formErrors.firstName}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -262,7 +250,7 @@ export default function Register() {
                                     autoComplete="family-name"
                                     value={formData.lastName}
                                     onChange={handleChange}
-                                    error={formErrors.lastName}
+
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -289,6 +277,20 @@ export default function Register() {
                                     type='date'
                                     name="dateUser"
                                     autoComplete="dateUser"
+                                    onChange={handleChange}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    error={formErrors.countryUser}
+                                    helperText={formErrors.countryUser}
+                                    id="countryUser"
+                                    label="Country User"
+                                    type='text'
+                                    name="countryUser"
+                                    autoComplete="countryUser"
                                     onChange={handleChange}
                                 />
                             </Grid>
