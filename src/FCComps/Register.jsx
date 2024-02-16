@@ -13,17 +13,20 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+//פונקציה הבודקת את הולידציה של שם משתמש
 function validateUserName(userName) {
     // Validate userName: Only allow alphanumeric characters and special characters, length up to 60 characters
     const regex = /^[a-zA-Z0-9!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]*$/;
     return userName.length <= 60 && regex.test(userName);
 }
 
+//פונקציה הבודקת את הולידציה של המייל
 function validateEmail(email) {
     // Basic email validation regex
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
+//פונקציה הבודקת את הולידציה של הסיסמא
 function validatePassword(password) {
     // Check if password is between 7 to 12 characters long
     if (password.length < 7 || password.length > 12) {
@@ -42,9 +45,10 @@ function validatePassword(password) {
 
 
 export default function Register() {
-
+    //צאק בוקס של צפייה בסיסמא
     const [showPassword, setShowPassword] = React.useState(false);
 
+    // אובייקט של הטופס
     const [formData, setFormData] = React.useState({
         userName: '',
         firstName: '',
@@ -60,6 +64,7 @@ export default function Register() {
         numberHome: 0,
     });
 
+    //בדיקת שגיאות
     const [formErrors, setFormErrors] = React.useState({
         userName: false,
         firstName: false,
@@ -74,10 +79,12 @@ export default function Register() {
         numberHome: false,
     });
 
+    // פונקציה המטפלת בצאק בוקס של הסיסמא
     const handleCheckboxChange = () => {
         setShowPassword(!showPassword);
     };
 
+    //פונקציה המטפלת בכפתור הסדמיט
     const handleSubmit = (event) => {
         event.preventDefault();
         const { email, password } = formData;
@@ -87,7 +94,6 @@ export default function Register() {
 
         // Check if password matches verifyPassword
         const isPasswordMatch = formData.password === formData.verifyPassword;
-
 
         setFormErrors({
             userName: !isUserNameValid,
@@ -104,6 +110,7 @@ export default function Register() {
         }
     };
 
+    
     const handleChange = (event) => {
         const { name, value, type, checked } = event.target;
 
