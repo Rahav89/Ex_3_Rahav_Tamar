@@ -1,231 +1,3 @@
-// import React, { useState } from 'react';
-
-// export default function FCRegister() {
-
-
-//     const [userName, setUserName] = useState('');
-//     const [password, setPassword] = useState('');
-//     const [passwordVerify, setPasswordVerify] = useState('');
-//     const [photo, setPhoto] = useState('');
-//     const [FirstName, setPrivateName] = useState('');
-//     const [LastName, setFamilyName] = useState('');
-//     const [email, setEmail] = useState('');
-//     const [date, setDate] = useState('');
-//     const [country, setCountry] = useState('');
-//     const [streetName, setStreetName] = useState('');
-//     const [NumberHome, setNumberHome] = useState('');
-
-//     const handleUserNameChange = (event) => {
-//         // מוודא שהטקסט מכיל רק אותיות לועזיות, מספרים ותווים מיוחדים
-//         const newText = event.target.value.replace(/[^a-zA-Z0-9!@#$%^&*()_+{}\[\]:;<>,.?\/\\|\-=]/g, '');
-//         // מוודא שאורך הטקסט לא יעלה על 60 תווים
-//         setUserName(newText.substring(0, 60));
-//     }
-
-//     const handlePasswordChange = (e) => {
-//         setPassword(e.target.value);
-//     }
-
-//     const handlePasswordVerifyChange = (e) => {
-//         setPasswordVerify(e.target.value);
-//     }
-
-//     const handlePhotoChange = (e) => {
-//         setPhoto(e.target.value);
-//     }
-
-//     const handleNameChange = (e) => {
-//         setPrivateName(e.target.value);
-//     }
-
-//     const handleLastNameChange = (e) => {
-//         setFamilyName(e.target.value);
-//     }
-
-//     const handleEmailChange = (e) => {
-//         setEmail(e.target.value);
-//     }
-
-//     const handleDateChange = (e) => {
-//         setDate(e.target.value);
-//     }
-
-//     const handleCountryChange = (e) => {
-//         setCountry(e.target.value);
-//     }
-
-//     const handleStreetNameChange = (e) => {
-//         setStreetName(e.target.value);
-//     }
-
-//     const handleNumberHomeChange = (e) => {
-//         const inputValue = Number(e.target.value);
-//         if (inputValue >= 0) {
-//             setNumberHome(inputValue);
-//         } else {
-//             // הודעת שגיאה
-//             console.error('Please enter a positive number');
-//         }
-//     }
-
-
-
-//     return (
-//         <div>
-//             <h3>FCRegister</h3>
-//             <div className="container">
-//                 <form id="pForm">
-//                     <h3>Enter your details:</h3>
-
-//                     <div className="form-group">
-//                         <label><span className="red-star">★ </span>User Name</label>
-//                         <input
-//                             type="text"
-//                             className="form-control"
-//                             id="userName"
-//                             placeholder="Enter your user name"
-//                             value={userName}
-//                             onChange={handleUserNameChange}
-//                             required />
-//                     </div>
-
-//                     <div className="form-group">
-//                         <label><span className="red-star">★ </span>Password</label>
-//                         <input
-//                             type="password"
-//                             className="form-control"
-//                             id="password"
-//                             placeholder="Enter password"
-//                             value={password}
-//                             onChange={handlePasswordChange}
-//                             required
-
-//                         />
-//                     </div>
-
-//                     <div className="form-group">
-//                         <label><span className="red-star">★ </span>Verify the Password</label>
-//                         <input
-//                             type="password"
-//                             className="form-control"
-//                             id="passwordVerify"
-//                             placeholder="Enter the password again"
-//                             value={passwordVerify}
-//                             onChange={handlePasswordVerifyChange}
-//                             required
-//                         />
-//                     </div>
-
-//                     <div className="form-group">
-//                         <label><span className="red-star">★ </span>Photo</label>
-//                         <input
-//                             type="file"
-//                             className="form-control"
-//                             id="photo"
-//                             value={photo}
-//                             onChange={handlePhotoChange}
-//                             required
-//                         />
-//                     </div>
-
-//                     <div className="form-group">
-//                         <label><span className="red-star">★ </span>First name</label>
-//                         <input
-//                             type="text"
-//                             value={FirstName}
-//                             className="form-control"
-//                             id="privateName"
-//                             placeholder="Enter your name"
-//                             onChange={handleNameChange}
-//                             required
-//                         />
-//                     </div>
-
-//                     <div className="form-group">
-//                         <label><span className="red-star">★ </span>Last name</label>
-//                         <input
-//                             type="text"
-//                             value={LastName}
-//                             className="form-control"
-//                             id="familyName"
-//                             placeholder="Enter your name"
-//                             onChange={handleLastNameChange}
-//                             required
-//                         />
-//                     </div>
-
-
-//                     <div className="form-group">
-//                         <label><span className="red-star">★ </span>Email</label>
-//                         <input
-//                             type="email"
-//                             className="form-control"
-//                             id="email"
-//                             value={email}
-//                             placeholder="Enter your email"
-//                             onChange={handleEmailChange}
-//                             required />
-//                     </div>
-
-
-//                     <div className="form-group">
-//                         <label><span className="red-star">★ </span>Date</label>
-//                         <input
-//                             type="date"
-//                             className="form-control"
-//                             id="date"
-//                             value={date}
-//                             onChange={handleDateChange}
-//                             required />
-//                     </div>
-
-//                     <div className="form-group">
-//                         <label><span className="red-star">★ </span>Contry</label>
-//                         <input
-//                             type="text"
-//                             className="form-control"
-//                             id="country"
-//                             value={country}
-//                             onChange={handleCountryChange}
-//                             required />
-//                     </div>
-
-//                     <div className="form-group">
-//                         <label><span className="red-star">★ </span>Street name</label>
-//                         <input
-//                             type="text"
-//                             className="form-control"
-//                             id="streetName"
-//                             value={streetName}
-//                             onChange={handleStreetNameChange}
-//                             required />
-//                     </div>
-
-//                     <div className="form-group">
-//                         <label><span className="red-star">★ </span>Number home</label>
-//                         <input
-//                             type="number"
-//                             className="form-control"
-//                             id="NumberHome"
-//                             value={NumberHome}
-//                             onChange={handleNumberHomeChange}
-//                             required />
-//                     </div>
-
-//                     <input type="submit" value="Submit" className="btnManage" />
-
-//                 </form>
-
-//             </div>
-
-
-
-
-
-
-//         </div>
-//     )
-// }
 import * as React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
@@ -240,6 +12,12 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+function validateUserName(userName) {
+    // Validate userName: Only allow alphanumeric characters and special characters, length up to 60 characters
+    const regex = /^[a-zA-Z0-9!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]*$/;
+    return userName.length <= 60 && regex.test(userName);
+}
 
 function validateEmail(email) {
     // Basic email validation regex
@@ -262,30 +40,52 @@ function validatePassword(password) {
     );
 }
 
-function SignUp() {
+export default function Register() {
+    const [showPassword, setShowPassword] = React.useState(false);
     const [formData, setFormData] = React.useState({
+        userName: '',
         firstName: '',
         lastName: '',
         email: '',
         password: '',
+        verifyPassword: '',
         allowExtraEmails: false,
+        photoUser: null,
+        dateUser: '',
     });
     const [formErrors, setFormErrors] = React.useState({
+        userName: false,
+        firstName: false,
+        lastName: false,
         email: false,
         password: false,
+        verifyPassword: false,
+        photoUser: '',
+        dateUser: false,
     });
+
+    const handleCheckboxChange = () => {
+        setShowPassword(!showPassword);
+    };
 
     const handleSubmit = (event) => {
         event.preventDefault();
         const { email, password } = formData;
         const isEmailValid = validateEmail(email);
         const isPasswordValid = validatePassword(password);
+        const isUserNameValid = validateUserName(formData.userName);
+
+        // Check if password matches verifyPassword
+        const isPasswordMatch = formData.password === formData.verifyPassword;
+
         setFormErrors({
+            userName: !isUserNameValid,
             email: !isEmailValid,
             password: !isPasswordValid,
+            verifyPassword: !isPasswordMatch, // Set verifyPassword error state
         });
 
-        if (isEmailValid && isPasswordValid) {
+        if (isEmailValid && isPasswordValid && isUserNameValid && isPasswordMatch) {
             console.log('Form is valid. Submitting data:', formData);
             // Add your form submission logic here
         } else {
@@ -300,6 +100,64 @@ function SignUp() {
             ...prevData,
             [name]: val,
         }));
+
+        // Perform validation
+        if (name === 'firstName' && value === '') {
+            setFormErrors({
+                ...formErrors,
+                firstName: true
+            });
+            return;
+        }
+        if (name === 'lastName' && value === '') {
+            setFormErrors({
+                ...formErrors,
+                lastName: true
+            });
+            return;
+        }
+
+        // If the input type is 'file', validate the file type
+        if (type === 'file') {
+            const file = event.target.files[0];
+            const allowedTypes = ['image/jpeg', 'image/jpg'];
+
+            if (file && !allowedTypes.includes(file.type)) {
+                setFormErrors((prevErrors) => ({
+                    ...prevErrors,
+                    photoUser: 'Only JPG or JPEG files are allowed.',
+                }));
+                return;
+            } else {
+                setFormErrors((prevErrors) => ({
+                    ...prevErrors,
+                    photoUser: '',
+                }));
+            }
+        }
+
+        // If the input type is 'date'
+        if (type === 'date') {
+            const selectedDate = new Date(value);
+            const currentDate = new Date();
+            const minDate = new Date(currentDate);
+            minDate.setFullYear(minDate.getFullYear() - 120);
+            const maxDate = new Date(currentDate);
+            maxDate.setFullYear(maxDate.getFullYear() - 18);
+
+            if (selectedDate < maxDate || selectedDate > minDate) {
+                setFormErrors((prevErrors) => ({
+                    ...prevErrors,
+                    dateUser: 'Invalid date. Age must be between 18 and 120 years old.',
+                }));
+                return;
+            } else {
+                setFormErrors((prevErrors) => ({
+                    ...prevErrors,
+                    dateUser: '',
+                }));
+            }
+        }
     };
 
     return (
@@ -322,6 +180,64 @@ function SignUp() {
                     </Typography>
                     <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
                         <Grid container spacing={2}>
+                            <Grid item xs={12}>
+                                <TextField
+                                    autoComplete="username"
+                                    name="userName"
+                                    required
+                                    fullWidth
+                                    id="userName"
+                                    label="User Name"
+                                    autoFocus
+                                    error={formErrors.userName}
+                                    helperText={formErrors.userName ? 'Invalid User Name' : ''}
+                                    onChange={handleChange}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    error={formErrors.password}
+                                    helperText={formErrors.password ? 'Password must be between 7 to 12 characters long and contain at least one special character, one uppercase letter, and one digit.' : ''}
+                                    name="password"
+                                    label="Password"
+                                    type={showPassword ? 'text' : 'password'}
+                                    id="password"
+                                    autoComplete="new-password"
+                                    onChange={handleChange}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    error={formErrors.verifyPassword}
+                                    helperText={formErrors.verifyPassword ? 'Passwords do not match' : ''}
+                                    name="verifyPassword"
+                                    label="Verify Password"
+                                    type={showPassword ? 'text' : 'password'}
+                                    id="verifyPassword"
+                                    autoComplete="new-password"
+                                    onChange={handleChange}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    error={!!formErrors.photoUser}
+                                    helperText={formErrors.photoUser}
+                                    name="photoUser"
+                                    label="Photo User"
+                                    type='file'
+                                    id="photoUser"
+                                    onChange={handleChange}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
+                            </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField
                                     autoComplete="given-name"
@@ -331,6 +247,9 @@ function SignUp() {
                                     id="firstName"
                                     label="First Name"
                                     autoFocus
+                                    value={formData.firstName}
+                                    onChange={handleChange}
+                                    error={formErrors.firstName}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -341,6 +260,9 @@ function SignUp() {
                                     label="Last Name"
                                     name="lastName"
                                     autoComplete="family-name"
+                                    value={formData.lastName}
+                                    onChange={handleChange}
+                                    error={formErrors.lastName}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -360,20 +282,20 @@ function SignUp() {
                                 <TextField
                                     required
                                     fullWidth
-                                    error={formErrors.password}
-                                    helperText={formErrors.password ? 'Password must be between 7 to 12 characters long and contain at least one special character, one uppercase letter, and one digit.' : ''}
-                                    name="password"
-                                    label="Password"
-                                    type="password"
-                                    id="password"
-                                    autoComplete="new-password"
+                                    error={formErrors.dateUser}
+                                    helperText={formErrors.dateUser}
+                                    id="dateUser"
+                                    label="Date"
+                                    type='date'
+                                    name="dateUser"
+                                    autoComplete="dateUser"
                                     onChange={handleChange}
                                 />
                             </Grid>
                             <Grid item xs={12}>
                                 <FormControlLabel
-                                    control={<Checkbox name="allowExtraEmails" color="primary" onChange={handleChange} />}
-                                    label="I want to receive inspiration, marketing promotions and updates via email."
+                                    control={<Checkbox name="allowExtraEmails" color="primary" onChange={handleCheckboxChange} />}
+                                    label="Show Password"
                                 />
                             </Grid>
                         </Grid>
@@ -398,5 +320,3 @@ function SignUp() {
         </ThemeProvider>
     );
 }
-
-export default SignUp;
