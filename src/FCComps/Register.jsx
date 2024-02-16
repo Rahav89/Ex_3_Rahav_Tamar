@@ -361,7 +361,7 @@ function SignUp() {
                                     required
                                     fullWidth
                                     error={formErrors.password}
-                                    helperText={formErrors.password ? 'Password must be at least 6 characters' : ''}
+                                    helperText={formErrors.password ? 'Password must be between 7 to 12 characters long and contain at least one special character, one uppercase letter, and one digit.' : ''}
                                     name="password"
                                     label="Password"
                                     type="password"
