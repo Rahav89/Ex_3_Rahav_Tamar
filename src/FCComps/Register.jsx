@@ -42,7 +42,9 @@ function validatePassword(password) {
 
 
 export default function Register() {
+
     const [showPassword, setShowPassword] = React.useState(false);
+
     const [formData, setFormData] = React.useState({
         userName: '',
         firstName: '',
@@ -54,7 +56,10 @@ export default function Register() {
         photoUser: null,
         dateUser: '',
         countryUser: '',
+        streetName: '',
+        numberHome: 0,
     });
+
     const [formErrors, setFormErrors] = React.useState({
         userName: false,
         firstName: false,
@@ -64,7 +69,9 @@ export default function Register() {
         verifyPassword: false,
         photoUser: '',
         dateUser: false,
-        countryUser: false
+        countryUser: false,
+        streetName: false,
+        numberHome: false,
     });
 
     const handleCheckboxChange = () => {
@@ -81,16 +88,17 @@ export default function Register() {
         // Check if password matches verifyPassword
         const isPasswordMatch = formData.password === formData.verifyPassword;
 
+
         setFormErrors({
             userName: !isUserNameValid,
             email: !isEmailValid,
             password: !isPasswordValid,
             verifyPassword: !isPasswordMatch,
+
         });
 
         if (isEmailValid && isPasswordValid && isUserNameValid && isPasswordMatch) {
             console.log('Form is valid. Submitting data:', formData);
-            // Add your form submission logic here
         } else {
             console.log('Form has errors. Please fix them.');
         }
@@ -125,6 +133,15 @@ export default function Register() {
             }
         }
 
+        // הוספת בדיקה לשם הרחוב
+        if (name === 'streetName') {
+            const isValidStreetName = /^[א-ת\s]*$/.test(value);
+            setFormErrors((prevErrors) => ({
+                ...prevErrors,
+                streetName: !isValidStreetName ? 'יש להזין רק אותיות בעברית' : '',
+            }));
+        }
+
         // If the input type is 'date'
         if (type === 'date') {
             const selectedDate = new Date(value);
@@ -147,6 +164,29 @@ export default function Register() {
                 }));
             }
         }
+
+        // If the input type is 'number' and name is 'numberHome'
+        if (type === 'number' && name === 'numberHome') {
+            // Check if the value is a positive number
+            if (parseInt(value) >= 0) {
+                setFormErrors((prevErrors) => ({
+                    ...prevErrors,
+                    [name]: false, // Clear any existing error for this field
+                }));
+            } else {
+                setFormErrors((prevErrors) => ({
+                    ...prevErrors,
+                    [name]: true, // Set error to true if the number is negative
+                }));
+            }
+        }
+
+
+        // Update formData state
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            [name]: value
+        }));
     };
 
     return (
@@ -292,6 +332,36 @@ export default function Register() {
                                     name="countryUser"
                                     autoComplete="countryUser"
                                     onChange={handleChange}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    helperText={formErrors.streetName}
+                                    id="streetName"
+                                    label="Street Name"
+                                    type='text'
+                                    name="streetName"
+                                    autoComplete="streetName"
+                                    onChange={handleChange}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    required
+                                    fullWidth
+                                    id="numberHome"
+                                    label="Number Home"
+                                    type='number'
+                                    name="numberHome"
+                                    autoComplete="numberHome"
+                                    helperText={formErrors.numberHome ? 'Please enter a positive number' : ''}
+                                    error={formErrors.numberHome}
+                                    onChange={handleChange}
+                                    inputProps={{
+                                        min: "0" // מגביל את הערך המינימלי לספרה אחת
+                                    }}
                                 />
                             </Grid>
                             <Grid item xs={12}>
