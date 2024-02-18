@@ -12,27 +12,23 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useEffect } from 'react';
 
 //פונקציה הבודקת את הולידציה של שם משתמש
 function validateUserName(userName) {
-    // Validate userName: Only allow alphanumeric characters and special characters, length up to 60 characters
+    // תבנית של אותיות לועזיות בלבד מספרים ותווים מיוחדים
     const regex = /^[a-zA-Z0-9!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]*$/;
+    // אם האורך מתחת ל 60 תווים וגם עומד בתנאי התווים של התבנית true מחזיר
     return userName.length <= 60 && regex.test(userName);
-}
-
-//פונקציה הבודקת את הולידציה של המייל
-function validateEmail(email) {
-    // Basic email validation regex
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
 //פונקציה הבודקת את הולידציה של הסיסמא
 function validatePassword(password) {
-    // Check if password is between 7 to 12 characters long
+    //בודק שהסיסמא בין 7 ל-12 תווים 
     if (password.length < 7 || password.length > 12) {
         return false;
     }
-    // Check if password contains at least one special character, one uppercase letter, and one digit
+    //בודק שהסיסמא מכילה לפחות תו מיוחד אחד, אות גדולה אחת ומספר אחד
     const specialCharacters = /[!@#$%^&*(),.?":{}|<>]/;
     const uppercaseLetter = /[A-Z]/;
     const digit = /[0-9]/;
@@ -43,11 +39,31 @@ function validatePassword(password) {
     );
 }
 
+//פונקציה הבודקת האם הסיסמאות שוות 
+const validateVerifyPassword = (formData) => {
+    return formData.password === formData.verifyPassword;
+}
+
+
+//פונקציה הבודקת את התמונה 
+const validatePhotoUser = (filesPhotoUser) => {
+    const file = filesPhotoUser[0];
+    const allowedTypes = ['image/jpeg', 'image/jpg'];
+    return (file && allowedTypes.includes(file.type));
+
+}
+
+//פונקציה הבודקת את הולידציה של המייל
+const validateEmail = (email) => {
+    // Basic email validation regex
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
 
 export default function Register() {
-    //צאק בוקס של צפייה בסיסמא
+    //צאק בוקס של צפייה בסיסמא - useState
     const [showPassword, setShowPassword] = React.useState(false);
-   // אובייקט של הטופס
+
+    // אובייקט של הטופס - useState 
     const [formData, setFormData] = React.useState({
         userName: '',
         firstName: '',
@@ -62,7 +78,8 @@ export default function Register() {
         streetName: '',
         numberHome: 0,
     });
-    //בדיקת שגיאות
+
+    //בדיקת שגיאות - useState
     const [formErrors, setFormErrors] = React.useState({
         userName: false,
         firstName: false,
@@ -70,72 +87,66 @@ export default function Register() {
         email: false,
         password: false,
         verifyPassword: false,
-        photoUser: '',
+        photoUser: false,
         dateUser: false,
         countryUser: false,
         streetName: false,
         numberHome: false,
     });
-// פונקציה המטפלת בצאק בוקס של הסיסמא
+
+    // פונקציה המטפלת בצ'אק בוקס של הסיסמא - בכל לחיצה נשנה מאמת לשקר ולהפך
     const handleCheckboxChange = () => {
         setShowPassword(!showPassword);
     };
 
-//פונקציה המטפלת בכפתור הסדמיט
+    //פונקציה המטפלת בכפתור הסדמיט
     const handleSubmit = (event) => {
         event.preventDefault();
-        const { email, password } = formData;
-        const isEmailValid = validateEmail(email);
-        const isPasswordValid = validatePassword(password);
         const isUserNameValid = validateUserName(formData.userName);
+        const isPasswordValid = validatePassword(formData.password);
+        const isPasswordMatch = validateVerifyPassword(formData);
+        const isEmailValid = validateEmail(formData.email);
+        const isPhotoValid = validatePhotoUser(formData.photoUser);
 
-        // Check if password matches verifyPassword
-        const isPasswordMatch = formData.password === formData.verifyPassword;
-
+        console.log(formData);
 
         setFormErrors({
             userName: !isUserNameValid,
-            email: !isEmailValid,
             password: !isPasswordValid,
             verifyPassword: !isPasswordMatch,
+            email: !isEmailValid,
+            photoUser: !isPhotoValid,
 
         });
 
-        if (isEmailValid && isPasswordValid && isUserNameValid && isPasswordMatch) {
+        if (isEmailValid && isPasswordValid && isUserNameValid && isPasswordMatch && isPhotoValid) {
             console.log('Form is valid. Submitting data:', formData);
         } else {
             console.log('Form has errors. Please fix them.');
         }
     };
 
-    const handleChange = (event) => {
-        const { name, value, type, checked } = event.target;
 
-        const val = type === 'checkbox' ? checked : value;
+
+
+    const handleChange = (event) => {
+        //const name = event.target.name  :דרך קיצור לכתוב כמה פעמים   
+        const { name, value, type, checked, files } = event.target;
+
+        let val = null;
+        if (type === 'checkbox') {
+            val = checked;
+        }
+        else if (type === 'file') {
+            val = files;
+        }
+        else val = value;
+
+        //שמאפיין את כל שדות הטופס (עדכון של האובקייט) useState שמירת הערך שנכתב בשדה ל  
         setFormData((prevData) => ({
             ...prevData,
             [name]: val,
         }));
-
-
-        // If the input type is 'file', validate the file type
-        if (type === 'file') {
-            const file = event.target.files[0];
-            const allowedTypes = ['image/jpeg', 'image/jpg'];
-
-            if (file && !allowedTypes.includes(file.type)) {
-                setFormErrors((prevErrors) => ({
-                    ...prevErrors,
-                    photoUser: 'Only JPG or JPEG files are allowed.',
-                }));
-                return;
-            } else {
-                setFormErrors((prevErrors) => ({
-                    ...prevErrors,
-                    photoUser: '',
-                }));
-            }
-        }
 
         // הוספת בדיקה לשם הרחוב
         if (name === 'streetName') {
@@ -184,13 +195,6 @@ export default function Register() {
                 }));
             }
         }
-
-
-        // Update formData state
-        setFormData(prevFormData => ({
-            ...prevFormData,
-            [name]: value
-        }));
     };
 
     return (
@@ -203,8 +207,7 @@ export default function Register() {
                         display: 'flex',
                         flexDirection: 'column',
                         alignItems: 'center',
-                    }}
-                >
+                    }}>
                     <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
                         <LockOutlinedIcon />
                     </Avatar>
@@ -223,7 +226,7 @@ export default function Register() {
                                     label="User Name"
                                     autoFocus
                                     error={formErrors.userName}
-                                    helperText={formErrors.userName ? 'Invalid User Name' : ''}
+                                    helperText={formErrors.userName ? 'User name invalid. User Name must contain foreign letters only, numbers and special characters. No more than 60 characters. ' : ""}
                                     onChange={handleChange}
                                 />
                             </Grid>
@@ -235,8 +238,8 @@ export default function Register() {
                                     helperText={formErrors.password ? 'Password must be between 7 to 12 characters long and contain at least one special character, one uppercase letter, and one digit.' : ''}
                                     name="password"
                                     label="Password"
-                                    type={showPassword ? 'text' : 'password'}
                                     id="password"
+                                    type={showPassword ? 'text' : 'password'}
                                     autoComplete="new-password"
                                     onChange={handleChange}
                                 />
@@ -246,11 +249,11 @@ export default function Register() {
                                     required
                                     fullWidth
                                     error={formErrors.verifyPassword}
-                                    helperText={formErrors.verifyPassword ? 'Passwords do not match' : ''}
+                                    helperText={formErrors.verifyPassword ? 'Passwords do not match, try again' : ''}
                                     name="verifyPassword"
                                     label="Verify Password"
-                                    type={showPassword ? 'text' : 'password'}
                                     id="verifyPassword"
+                                    type={showPassword ? 'text' : 'password'}
                                     autoComplete="new-password"
                                     onChange={handleChange}
                                 />
@@ -259,8 +262,8 @@ export default function Register() {
                                 <TextField
                                     required
                                     fullWidth
-                                    error={!!formErrors.photoUser}
-                                    helperText={formErrors.photoUser}
+                                    error={formErrors.photoUser}
+                                    helperText={formErrors.photoUser ? 'Only JPG or JPEG files are allowed.' : ""}
                                     name="photoUser"
                                     label="Photo User"
                                     type='file'
