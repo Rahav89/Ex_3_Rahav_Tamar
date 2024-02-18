@@ -45,7 +45,7 @@ const validateVerifyPassword = (formData) => {
 }
 
 
-//פונקציה הבודקת את התמונה 
+//פונקציה הבודקת את הסוג של התמונה 
 const validatePhotoUser = (filesPhotoUser) => {
     const file = filesPhotoUser[0];
     const allowedTypes = ['image/jpeg', 'image/jpg'];
