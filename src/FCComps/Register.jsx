@@ -14,6 +14,7 @@ import Container from '@mui/material/Container';
 import Autocomplete from '@mui/material/Autocomplete';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
+
 //  מערך של ערים בישראל
 const countries = [
     'ירושלים',
@@ -28,14 +29,15 @@ const countries = [
     'בת ים',
 ];
 
-export default function Register() {
+export default function Register(props) {
+
 
     //פונקציה הבודקת את הולידציה של שם משתמש
     function validateUserName(userName) {
         // תבנית של אותיות לועזיות בלבד מספרים ותווים מיוחדים
         const regex = /^[a-zA-Z0-9!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]*$/;
         // אם האורך מתחת ל 60 תווים וגם עומד בתנאי התווים של התבנית true מחזיר
-        return userName.length <= 60 && regex.test(userName);
+        return userName.length <= 60 && regex.test(userName) && userName != '';
     }
 
     //פונקציה הבודקת את הולידציה של הסיסמא
@@ -57,23 +59,23 @@ export default function Register() {
 
     //פונקציה הבודקת האם הסיסמאות שוות 
     const validateVerifyPassword = (formData) => {
-        return formData.password === formData.verifyPassword;
+        return ((formData.password === formData.verifyPassword) && (formData.verifyPassword != ''));
     }
 
     // פונקציה המטפלת בצ'אק בוקס של הסיסמא - בכל לחיצה נשנה מאמת לשקר ולהפך
-    const handleCheckboxChange = () => {
+    const handleShowPassword = () => {
         setShowPassword(!showPassword);
     };
 
     //פונקציה הבודקת האם הקלט הוא טקסט בלבד (בשביל שם פרטי ומשפחה בטופס)
     const validateTextOnly = (value) => {
-        return /^[a-zA-Z ]*$/.test(value);
+        return ((/^[a-zA-Zא-ת]*$/.test(value)) && value != '');
     }
 
     //פונקציה הבודקת את הולידציה של המייל
     const validateEmail = (email) => {
         const regex = /^[a-zA-Z.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z-]+\.com$/;
-        return regex.test(email);
+        return ((regex.test(email)) && email != '');
     }
 
     //פונקציה הבודקת את הולידציה של תאריך לידה
@@ -87,9 +89,8 @@ export default function Register() {
             age--;
         }
 
-        if (age < 18 || age > 120) {
-            console.log(false, "under 18 or above 120")
-            return false; // התאריך לא הגיוני אם הגיל קטן מ-18 או גדול מ-120
+        if (age < 18 || age > 120 || dateOfBirth == '') {
+            return false; // התאריך לא הגיוני אם ריק או שהגיל קטן מ-18 או גדול מ-120
         }
         return true;
     }
@@ -101,28 +102,29 @@ export default function Register() {
     // אובייקט של הטופס - useState 
     const [formData, setFormData] = React.useState({
         userName: '',
+        password: '',
+        verifyPassword: '',
+        photoUser: null,
         firstName: '',
         lastName: '',
         email: '',
-        password: '',
-        verifyPassword: '',
-        allowExtraEmails: false,
-        photoUser: null,
         dateUser: '',
         cityUser: '',
         streetName: '',
         homeNumber: 0,
+        ShowPassword: false,
     });
+
 
     //בדיקת שגיאות - useState
     const [formErrors, setFormErrors] = React.useState({
         userName: false,
-        firstName: false,
-        lastName: false,
-        email: false,
         password: false,
         verifyPassword: false,
         photoUser: false,
+        firstName: false,
+        lastName: false,
+        email: false,
         dateUser: false,
         cityUser: false,
         streetName: false,
@@ -140,9 +142,8 @@ export default function Register() {
         const isLastNameValid = validateTextOnly(formData.lastName);
         const isEmailValid = validateEmail(formData.email);
         const isDateValid = validateDate(formData.dateUser);
-        const isStreetValid = /^[א-ת\s]*$/.test(formData.streetName);
-        // const isHomeNumberValid =parseInt(formData.homeNumber)>=0 ;
-        const isHomeNumberValid = /^\d+$/.test(formData.homeNumber);
+        const isStreetValid = ((/^[א-ת\s]*$/.test(formData.streetName)) && (formData.streetName != ''));
+        const isHomeNumberValid = ((/^\d+$/.test(formData.homeNumber)) && (formData.homeNumber != ''));
 
         console.log(formData);
 
@@ -160,10 +161,33 @@ export default function Register() {
 
         }));
 
-        if (isEmailValid && isHomeNumberValid && isPasswordValid && isStreetValid && isUserNameValid && isPasswordMatch && isFirstNameValid && isLastNameValid && isDateValid) {
-            console.log('Form is valid. Submitting data:', formData);
-        } else {
-            console.log('Form has errors. Please fix them.');
+        if (isUserNameValid && isPasswordValid && isPasswordMatch && isFirstNameValid &&
+            isLastNameValid && isEmailValid && isDateValid && isStreetValid && isHomeNumberValid &&
+            formErrors.photoUser === false && formData.photoUser != null
+            && formErrors.cityUser === false && formData.cityUser != ' ') {
+
+            Swal.fire("Added Successfully!", "User added", "success").then((result) => {
+                // Check if the user clicked the "OK" button
+                if (result.isConfirmed) {
+                    console.log("send to app");
+                    // שולחים את כל אובייקט השדות חוץ מהצגת הסיסמה ע"י פיצול האובייקט
+                    const { ShowPassword, ...formDataToSend } = formData;
+                    props.sendUserToApp(formDataToSend);
+                }
+            });
+        }
+        //בדיקה לשדות שלא עשינו להם ולידציה בלחיצה על סאבמיט
+        else if (formData.photoUser === null) {
+            setFormErrors((prevData) => ({
+                ...prevData,
+                ['photoUser']: true,
+            }));
+        }
+        if (formData.cityUser === '') {
+            setFormErrors((prevData) => ({
+                ...prevData,
+                ['cityUser']: true,
+            }));
         }
     };
 
@@ -184,10 +208,18 @@ export default function Register() {
                 ...prevErrors,
                 photoUser: !(file && allowedTypes.includes(file.type)),
             }));
-            //הגדרת הערך של התמונה בשביל האובייקט של הסט-סטייט
-            val = file;
+            //שמירת התמונה בפורמט מתאים ללוקאל סטוראג
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                // Once the file is loaded, set the result to the value
+                setFormData((prevData) => ({
+                    ...prevData,
+                    [name]: event.target.result, // Use event.target.result here
+                }));
+            };
+            // Start reading the file
+            reader.readAsDataURL(file);
         }
-
         else val = value;
 
         //שמאפיין את כל שדות הטופס (עדכון של האובייקט) useState-שמירת הערך שנכתב בשדה ל  
@@ -197,15 +229,20 @@ export default function Register() {
         }));
 
     };
+
+    //מטפל באיקס של התיבת עיר
     const handleInputChange = (event, newInputValue) => {
-        // If the input value is cleared, prevent it from being cleared
-        if (!newInputValue) {
-            setFormErrors((prevErrors) => ({
-                ...prevErrors,
-                ['cityUser']: true,// Set error to true if the number is negative
-            }));
+        let vaildFlag;
+        if (newInputValue) {
+            vaildFlag = true;
         }
+        setFormErrors((prevErrors) => ({
+            ...prevErrors,
+            ['cityUser']: !vaildFlag,// Set error to true if the number is negative
+        }));
     };
+
+    //מטפל בשינוי של הרשימה הנגללת 
     const handleChange_Autocomplete_City = (event, newValue) => {
         setFormData(prevData => ({
             ...prevData,
@@ -235,8 +272,8 @@ export default function Register() {
                             <Grid item xs={12}>
                                 <TextField
                                     autoComplete="username"
-                                    name="userName"
                                     required
+                                    name="userName"
                                     fullWidth
                                     id="userName"
                                     label="User Name"
@@ -276,8 +313,8 @@ export default function Register() {
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
-                                    type='file'
                                     required
+                                    type='file'
                                     fullWidth
                                     error={formErrors.photoUser}
                                     helperText={formErrors.photoUser ? 'Only JPG or JPEG files are allowed.' : ""}
@@ -289,8 +326,8 @@ export default function Register() {
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField
-                                    autoComplete="given-name"
                                     required
+                                    autoComplete="given-name"
                                     fullWidth
                                     name="firstName"
                                     id="firstName"
@@ -328,8 +365,8 @@ export default function Register() {
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
-                                    type='date'
                                     required
+                                    type='date'
                                     fullWidth
                                     error={formErrors.dateUser}
                                     helperText={formErrors.dateUser ? 'Invalid date. Age must be between 18 and 120 years old.' : ''}
@@ -394,7 +431,7 @@ export default function Register() {
                             </Grid>
                             <Grid item xs={12}>
                                 <FormControlLabel
-                                    control={<Checkbox name="allowExtraEmails" color="primary" onChange={handleCheckboxChange} />}
+                                    control={<Checkbox name="ShowPassword" color="primary" onChange={handleShowPassword} />}
                                     label="Show Password"
                                 />
                             </Grid>
@@ -409,7 +446,8 @@ export default function Register() {
                         </Button>
                         <Grid container justifyContent="flex-end">
                             <Grid item>
-                                <Link href="#" variant="body2">
+                                <Link href="#" variant="body2" onClick={() => setIsVisible(!isVisible)}>
+                                                                        
                                     Already have an account? Sign in
                                 </Link>
                             </Grid>

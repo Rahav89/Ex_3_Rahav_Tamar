@@ -28,7 +28,7 @@ function Copyright(props) {
 
 const defaultTheme = createTheme();
 
-export default function Login() {
+export default function Login(props) {
   const handleSubmit = (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -61,7 +61,7 @@ export default function Login() {
               margin="normal"
               required
               fullWidth
-              id="email"
+              id="emailLogin"
               label="Email Address"
               name="email"
               autoComplete="email"
@@ -74,7 +74,7 @@ export default function Login() {
               name="password"
               label="Password"
               type="password"
-              id="password"
+              id="passwordLogin"
               autoComplete="current-password"
             />
             <FormControlLabel
