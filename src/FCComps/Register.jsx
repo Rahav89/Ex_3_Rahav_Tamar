@@ -271,79 +271,85 @@ export default function Register(props) {
                         <Grid container spacing={2}>
                             <Grid item xs={12}>
                                 <TextField
-                                    autoComplete="username"
                                     required
-                                    name="userName"
                                     fullWidth
+                                    autoFocus
+                                    name="userName"
                                     id="userName"
                                     label="User Name"
-                                    autoFocus
+                                    autoComplete="username"
                                     error={formErrors.userName}
-                                    helperText={formErrors.userName ? 'User name invalid. User Name must contain foreign letters only, numbers and special characters. No more than 60 characters. ' : ""}
+                                    helperText={formErrors.userName ? 'User Name must contain foreign letters only, numbers and special characters. No more than 60 characters. ' : ""}
                                     onChange={handleChange}
                                 />
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid item xs={6}>
                                 <TextField
                                     required
                                     fullWidth
-                                    error={formErrors.password}
-                                    helperText={formErrors.password ? 'Password must be between 7 to 12 characters long and contain at least one special character, one uppercase letter, and one digit.' : ''}
                                     name="password"
-                                    label="Password"
                                     id="password"
-                                    type={showPassword ? 'text' : 'password'}
+                                    label="Password"
                                     autoComplete="new-password"
+                                    error={formErrors.password}
+                                    helperText={formErrors.password ? "Password must be 7-12 characters long and include at least one special character, one uppercase letter, and one digit." : ''}
                                     onChange={handleChange}
+                                    type={showPassword ? 'text' : 'password'}
                                 />
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid item xs={6}>
                                 <TextField
                                     required
                                     fullWidth
+                                    name="verifyPassword"
+                                    id="verifyPassword"
+                                    label="Verify Password"
+                                    autoComplete="new-password"
                                     error={formErrors.verifyPassword}
                                     helperText={formErrors.verifyPassword ? 'Passwords do not match, try again' : ''}
-                                    name="verifyPassword"
-                                    label="Verify Password"
-                                    id="verifyPassword"
-                                    type={showPassword ? 'text' : 'password'}
-                                    autoComplete="new-password"
                                     onChange={handleChange}
+                                    type={showPassword ? 'text' : 'password'}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <FormControlLabel
+                                    control={<Checkbox name="ShowPassword" color="primary" onChange={handleShowPassword} />}
+                                    label="Show Password"
                                 />
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
-                                    required
                                     type='file'
+                                    required
                                     fullWidth
+                                    name="photoUser"
+                                    id="photoUser"
+                                    label="Photo User"
                                     error={formErrors.photoUser}
                                     helperText={formErrors.photoUser ? 'Only JPG or JPEG files are allowed.' : ""}
-                                    name="photoUser"
-                                    label="Photo User"
-                                    id="photoUser"
                                     onChange={handleChange}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField
                                     required
-                                    autoComplete="given-name"
                                     fullWidth
                                     name="firstName"
                                     id="firstName"
                                     label="First Name"
-                                    onChange={handleChange}
+                                    autoComplete="given-name"
                                     error={formErrors.firstName}
                                     helperText={formErrors.firstName ? 'Only text are allowed.' : ""}
+                                    onChange={handleChange}
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
                                 <TextField
                                     required
                                     fullWidth
+                                    name="lastName"
                                     id="lastName"
                                     label="Last Name"
-                                    name="lastName"
                                     autoComplete="family-name"
                                     error={formErrors.lastName}
                                     helperText={formErrors.lastName ? 'Only text are allowed.' : ""}
@@ -354,26 +360,26 @@ export default function Register(props) {
                                 <TextField
                                     required
                                     fullWidth
-                                    error={formErrors.email}
-                                    helperText={formErrors.email ? 'Invalid email' : ''}
+                                    name="email"
                                     id="email"
                                     label="Email Address"
-                                    name="email"
                                     autoComplete="email"
+                                    error={formErrors.email}
+                                    helperText={formErrors.email ? 'Invalid email' : ''}
                                     onChange={handleChange}
                                 />
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
-                                    required
                                     type='date'
+                                    required
                                     fullWidth
-                                    error={formErrors.dateUser}
-                                    helperText={formErrors.dateUser ? 'Invalid date. Age must be between 18 and 120 years old.' : ''}
+                                    name="dateUser"
                                     id="dateUser"
                                     label="Date"
-                                    name="dateUser"
                                     autoComplete="dateUser"
+                                    error={formErrors.dateUser}
+                                    helperText={formErrors.dateUser ? 'Age must be between 18 and 120 years old.' : ''}
                                     onChange={handleChange}
                                 />
                             </Grid>
@@ -398,43 +404,37 @@ export default function Register(props) {
                                     )}
                                 />
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid item xs={6}>
                                 <TextField
                                     required
                                     fullWidth
-                                    error={formErrors.streetName}
-                                    helperText={formErrors.streetName ? 'Please write street name in Hebrew only.' : ''}
+                                    name="streetName"
                                     id="streetName"
                                     label="Street Name"
-                                    type='text'
-                                    name="streetName"
                                     autoComplete="streetName"
+                                    error={formErrors.streetName}
+                                    helperText={formErrors.streetName ? 'Only Hebrew letters are allowed.' : ''}
                                     onChange={handleChange}
                                 />
                             </Grid>
-                            <Grid item xs={12}>
+                            <Grid item xs={6}>
                                 <TextField
+                                    type='number'
                                     required
                                     fullWidth
-                                    id="homeNumber"
-                                    label="Number Home"
-                                    type='number'
                                     name="homeNumber"
+                                    id="homeNumber"
+                                    label="Home Number"
                                     autoComplete="homeNumber"
-                                    helperText={formErrors.homeNumber ? 'Please enter a positive number' : ''}
                                     error={formErrors.homeNumber}
+                                    helperText={formErrors.homeNumber ? 'Please enter a positive number' : ''}
                                     onChange={handleChange}
                                     inputProps={{
                                         min: "0" // מגביל את הערך המינימלי לספרה אחת
                                     }}
                                 />
                             </Grid>
-                            <Grid item xs={12}>
-                                <FormControlLabel
-                                    control={<Checkbox name="ShowPassword" color="primary" onChange={handleShowPassword} />}
-                                    label="Show Password"
-                                />
-                            </Grid>
+                            
                         </Grid>
                         <Button
                             type="submit"
@@ -443,15 +443,7 @@ export default function Register(props) {
                             sx={{ mt: 3, mb: 2 }}
                         >
                             Sign Up
-                        </Button>
-                        <Grid container justifyContent="flex-end">
-                            <Grid item>
-                                <Link href="#" variant="body2" onClick={() => setIsVisible(!isVisible)}>
-                                                                        
-                                    Already have an account? Sign in
-                                </Link>
-                            </Grid>
-                        </Grid>
+                        </Button>                       
                     </Box>
                 </Box>
             </Container>

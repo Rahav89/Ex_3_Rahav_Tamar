@@ -5,31 +5,27 @@ import Login from './FCComps/Login'
 import Proflie from './FCComps/Proflie'
 import Register from './FCComps/Register'
 import SystemAdmin from './FCComps/SystemAdmin'
-
+import { useState, useEffect } from 'react';
 
 export default function App() {
 
-//פונקציה המתבצעת בכל טעינה של המערכת
+  //פונקציה המתבצעת בכל טעינה של המערכת
+  //ניגשת ללוקאל סטוראג ומחזירה את מערך המשתמשים אם יש , אם אין מחזירה מערך ריק
   const loadUsers = () => {
-    // Access localStorage and retrieve the users array
     const storedUsers = localStorage.getItem('users');
-
-    // Check if storedUsers is not null or undefined
     if (storedUsers) {
-      // Parse the storedUsers string to convert it back to an array
       return JSON.parse(storedUsers);
     } else {
-      // If no data exists in localStorage, return an empty array
       return [];
     }
   };
 
-  const componentDidMount = () => {
+
+  useEffect(() => {
     // Call loadUsers function and use the returned array as needed
     let users = loadUsers();
     console.log(users);
-
-  };
+  }, []); // Empty dependency array ensures this effect runs only once after initial render
 
   //פונקציה המקבלת את פרטי המשתמש , יוצרת משתמש חדש ומוסיפה אותו למאגר המשתמשים
   const registerUser = (userFromChildRegister) => {
