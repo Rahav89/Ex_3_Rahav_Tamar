@@ -5,7 +5,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -434,7 +433,7 @@ export default function Register(props) {
                                     }}
                                 />
                             </Grid>
-                            
+
                         </Grid>
                         <Button
                             type="submit"
@@ -443,7 +442,7 @@ export default function Register(props) {
                             sx={{ mt: 3, mb: 2 }}
                         >
                             Sign Up
-                        </Button>                       
+                        </Button>
                     </Box>
                 </Box>
             </Container>
