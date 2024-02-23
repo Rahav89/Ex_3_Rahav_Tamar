@@ -317,13 +317,14 @@ export default function Register(props) {
                                 />
                             </Grid>
                             <Grid item xs={12}>
-                                <TextField
+                                <TextField 
+                                style={{"direction": "rtl"}}
                                     type='file'
                                     required
                                     fullWidth
                                     name="photoUser"
                                     id="photoUser"
-                                    label="Photo User"
+                                    label="User Photo"
                                     error={formErrors.photoUser}
                                     helperText={formErrors.photoUser ? 'Only JPG or JPEG files are allowed.' : ""}
                                     onChange={handleChange}
