@@ -5,6 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
+import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -317,8 +318,8 @@ export default function Register(props) {
                                 />
                             </Grid>
                             <Grid item xs={12}>
-                                <TextField 
-                                style={{"direction": "rtl"}}
+                                <TextField
+                                    style={{ "direction": "rtl" }}
                                     type='file'
                                     required
                                     fullWidth
@@ -371,6 +372,7 @@ export default function Register(props) {
                             </Grid>
                             <Grid item xs={12}>
                                 <TextField
+                                    style={{ "direction": "rtl" }}
                                     type='date'
                                     required
                                     fullWidth
@@ -433,6 +435,11 @@ export default function Register(props) {
                                         min: "0" // מגביל את הערך המינימלי לספרה אחת
                                     }}
                                 />
+                            </Grid>
+                            <Grid item>
+                                <Link href="#" variant="body2">
+                                    {"Already have an account? Click to sign in"}
+                                </Link>
                             </Grid>
 
                         </Grid>
