@@ -30,7 +30,40 @@ const countries = [
 ];
 
 export default function Register(props) {
+    //צאק בוקס של צפייה בסיסמא - useState
+    const [showPassword, setShowPassword] = React.useState(false);
 
+    // אובייקט של הטופס - useState 
+    const [formData, setFormData] = React.useState({
+        userName: '',
+        password: '',
+        verifyPassword: '',
+        photoUser: null,
+        firstName: '',
+        lastName: '',
+        email: '',
+        dateUser: '',
+        cityUser: '',
+        streetName: '',
+        homeNumber: 0,
+        ShowPassword: false,
+    });
+
+
+    //בדיקת שגיאות - useState
+    const [formErrors, setFormErrors] = React.useState({
+        userName: false,
+        password: false,
+        verifyPassword: false,
+        photoUser: false,
+        firstName: false,
+        lastName: false,
+        email: false,
+        dateUser: false,
+        cityUser: false,
+        streetName: false,
+        homeNumber: false,
+    });
 
     //פונקציה הבודקת את הולידציה של שם משתמש
     function validateUserName(userName) {
@@ -94,43 +127,6 @@ export default function Register(props) {
         }
         return true;
     }
-
-    //צאק בוקס של צפייה בסיסמא - useState
-    const [showPassword, setShowPassword] = React.useState(false);
-
-
-    // אובייקט של הטופס - useState 
-    const [formData, setFormData] = React.useState({
-        userName: '',
-        password: '',
-        verifyPassword: '',
-        photoUser: null,
-        firstName: '',
-        lastName: '',
-        email: '',
-        dateUser: '',
-        cityUser: '',
-        streetName: '',
-        homeNumber: 0,
-        ShowPassword: false,
-    });
-
-
-    //בדיקת שגיאות - useState
-    const [formErrors, setFormErrors] = React.useState({
-        userName: false,
-        password: false,
-        verifyPassword: false,
-        photoUser: false,
-        firstName: false,
-        lastName: false,
-        email: false,
-        dateUser: false,
-        cityUser: false,
-        streetName: false,
-        homeNumber: false,
-    });
-
 
     //פונקציה המטפלת בכפתור הסדמיט
     const handleSubmit = (event) => {
@@ -250,6 +246,11 @@ export default function Register(props) {
         }));
     };
 
+    // פונקציה שמעבירה לאבא אם לחצתי על הכפתור של ההרשמה
+    const changePageToLogIn = () =>{
+        props.moveToLogInFlag(true);
+    }
+
     return (
         <ThemeProvider theme={createTheme()}>
             <Container component="main" maxWidth="xs">
@@ -329,6 +330,7 @@ export default function Register(props) {
                                     error={formErrors.photoUser}
                                     helperText={formErrors.photoUser ? 'Only JPG or JPEG files are allowed.' : ""}
                                     onChange={handleChange}
+                                  
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -437,7 +439,7 @@ export default function Register(props) {
                                 />
                             </Grid>
                             <Grid item>
-                                <Link href="#" variant="body2">
+                                <Link variant="body2" onClick={changePageToLogIn}>
                                     {"Already have an account? Click to sign in"}
                                 </Link>
                             </Grid>
