@@ -47,17 +47,12 @@ export default function EditDetails(props) {
     cityUser: '',
     streetName: '',
     homeNumber: 0,
-    ...currentUser
   });
 
-  // Update session storage whenever formData changes
-  useEffect(() => {
-    sessionStorage.setItem('currentUser', JSON.stringify(formData));
-  }, [formData])
+
 
   const handleChange = (event) => {
     const { name, value } = event.target;
-
     setFormData(prevData => ({
       ...prevData,
       [name]: value,
@@ -87,7 +82,7 @@ export default function EditDetails(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Here you would typically handle the submission, e.g., sending data to a server
+    
     console.log(formData); // For demonstration purposes
   };
 
