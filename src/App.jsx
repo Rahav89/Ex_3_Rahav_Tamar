@@ -16,8 +16,9 @@ import { Grid } from '@mui/material';
 export default function App() {
 
   const [movePage_Register_LoIn, setMovePage_Register_LoIn] = useState(false);
-  const [loggedInFlag, setloggedInFlag] = useState(false);
+  const [loggedInFlag, setLoggedInFlag] = useState(false);
   const [editDetailFlag, setEditDetailFlag] = useState(false);
+  const [loggedInFlagAdmin, setLoggedInFlagAdmin] = useState(false);
 
   useEffect(() => {
     // Call loadUsers function and use the returned array as needed
@@ -50,23 +51,33 @@ export default function App() {
   }
 
   const showProflie = (flag) => {
-    setloggedInFlag(flag);
+    setLoggedInFlag(flag);
   }
-
+  const showAdminProflie = (flag) => {
+    setLoggedInFlagAdmin(flag);
+  }
 
   const showEditDetailComp = (flag) => {
     setEditDetailFlag(flag);
   }
 
+
   return (
     <>
       {movePage_Register_LoIn ?
-        <Login moveToLogInFlag={changePage} usersListFromApp={loadUsers()} LoggedIn={showProflie} /> :
+        <Login moveToLogInFlag={changePage} usersListFromApp={loadUsers()} LoggedIn={showProflie} LoggedInAdmin={showAdminProflie} /> :
         <Register sendUserToApp={registerUser} moveToLogInFlag={changePage} />
       }
 
       {loggedInFlag ?
-        <Proflie LoggedIn={showProflie} showEditDetail={showEditDetailComp} /> :
+        <Proflie LoggedIn={showProflie} showEditDetail={showEditDetailComp} /> : ''
+
+      }
+
+      {loggedInFlagAdmin ? <SystemAdmin usersListFromApp={loadUsers()} showEditDetail={showEditDetailComp} /> : ''}
+
+
+      {(!loggedInFlag && !loggedInFlagAdmin) ?
         <Grid container>
           <Grid item xs={12} >
             <Card style={{ textAlign: "center" }}>
@@ -80,13 +91,11 @@ export default function App() {
               />
             </Card>
           </Grid>
-        </Grid >
-      }
-
+        </Grid > : ''}
 
       {editDetailFlag ? <EditDetails showEditDetail={showEditDetailComp} /> : ''}
 
-      <SystemAdmin />
+
     </>
   )
 }

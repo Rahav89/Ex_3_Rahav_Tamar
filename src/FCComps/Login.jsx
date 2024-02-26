@@ -93,7 +93,7 @@ export default function Login(props) {
     //בדיקה האם המשתמש קיים
     let currentUser = loginUser(formData.userName, formData.password);
 
-    if (currentUser && userName && password) {
+    if (currentUser && isUserNameValid && isPasswordValid) {
       //לשמור אותו בסטורג אם מצאנו אותו
       sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
       //הודעה שהיוזר התחבר בהצלחה
@@ -104,12 +104,21 @@ export default function Login(props) {
         }
     });
     }
-    else//היוזר לא הצליח להתחבר - שם או סיסמא לא נכונים
+    else if (formData.userName === "admin" && formData.password === "ad12343211ad") {
+      Swal.fire("Logged in successfully", "Welcome back!", "success").then((result) => {
+        // Check if the user clicked the "OK" button
+        if (result.isConfirmed) {
+          props.LoggedInAdmin(true);
+        }
+      });
+    }
+    else {//היוזר לא הצליח להתחבר - שם או סיסמא לא נכונים
       Swal.fire({
         icon: 'error',
         title: 'Login failed',
         text: 'Username or Password is incorrect.',
       });
+    }
   }
 
   //פונקציה המקבלת שם משתמש וסיסמה ובודקת אם קיים משתמש שפרטיו זהים

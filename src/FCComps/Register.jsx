@@ -404,7 +404,7 @@ export default function Register(props) {
                                             {...params}
                                             required
                                             fullWidth
-                                            error={!!formErrors.cityUser}
+                                            error={formErrors.cityUser}
                                             helperText={formErrors.cityUser ? 'You must choose a city' : ''}
                                             label="City User"
                                             type="text"

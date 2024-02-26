@@ -19,18 +19,20 @@ export default function Proflie(props) {
     if (!currentUser) {
         props.LoggedIn(false);
     }
-
+    if (props.changeDetailsFromApp) {
+        currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+    }
     //- פונקציה המקבלת את כתובת המייל של משתמש מסויים ובודקת אם הוא
-    //אכן המשתמש המחובר
+    //אכן משתמש המחובר
     const logoutUser = () => {
         sessionStorage.clear();
         props.LoggedIn(false);
     }
 
-    const editDetail=() =>{
+    const editDetail = () => {
         props.showEditDetail(true);
-
     }
+
     return (
         <Grid container >
             <Grid item xs={12} ></Grid>
