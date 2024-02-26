@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Autocomplete from '@mui/material/Autocomplete';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 
 //  מערך של ערים בישראל
@@ -27,11 +27,11 @@ const countries = [
 ];
 
 export default function EditDetails(props) {
+
   //לבדוק את היוזר
   let currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
   if (!currentUser) {
     props.showEditDetail(false);
-
   }
 
 
@@ -47,17 +47,23 @@ export default function EditDetails(props) {
     cityUser: '',
     streetName: '',
     homeNumber: 0,
+    ...currentUser
   });
 
+  // Update session storage whenever formData changes
+  useEffect(() => {
+    sessionStorage.setItem('currentUser', JSON.stringify(formData));
+  }, [formData])
+
   const handleChange = (event) => {
-    event.preventDefault(); // מניעת רענון הדף בשליחת הטופס
-    // const { name, value } = event.target; // גישה לשם ולערך של השדה שהשתנה
-    console.log(formData);
-    // setFormData(prevData => ({
-    //   ...prevData,
-    //   [name]: value, // עדכון דינמי של המצב בהתאם לשדה שהשתנה
-    // }));
+    const { name, value } = event.target;
+
+    setFormData(prevData => ({
+      ...prevData,
+      [name]: value,
+    }));
   };
+
 
   //מטפל באיקס של התיבת עיר
   const handleInputChange = (event, newInputValue) => {
@@ -79,8 +85,12 @@ export default function EditDetails(props) {
     }));
   };
 
-  const handleSubmit = () => {
-  }
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // Here you would typically handle the submission, e.g., sending data to a server
+    console.log(formData); // For demonstration purposes
+  };
+
 
 
   return (
@@ -109,7 +119,7 @@ export default function EditDetails(props) {
                   autoFocus
                   name="userName"
                   id="userName"
-                  value={currentUser ? currentUser.userName : ''}
+                  value={currentUser ? currentUser.userName : ""}
                   label="User Name"
                   autoComplete="username"
                   onChange={handleChange}
