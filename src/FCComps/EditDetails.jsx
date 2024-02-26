@@ -3,17 +3,13 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Autocomplete from '@mui/material/Autocomplete';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 
 //  מערך של ערים בישראל
@@ -54,14 +50,13 @@ export default function EditDetails(props) {
   });
 
   const handleChange = (event) => {
-    //const name = event.target.name  :דרך קיצור לכתוב כמה פעמים   
-    const { name, value } = event.target;
-
-    //שמאפיין את כל שדות הטופס (עדכון של האובייקט) useState-שמירת הערך שנכתב בשדה ל  
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
+    event.preventDefault(); // מניעת רענון הדף בשליחת הטופס
+    // const { name, value } = event.target; // גישה לשם ולערך של השדה שהשתנה
+    console.log(formData);
+    // setFormData(prevData => ({
+    //   ...prevData,
+    //   [name]: value, // עדכון דינמי של המצב בהתאם לשדה שהשתנה
+    // }));
   };
 
   //מטפל באיקס של התיבת עיר
@@ -84,7 +79,8 @@ export default function EditDetails(props) {
     }));
   };
 
-  const handleSubmit = (event) => { }
+  const handleSubmit = () => {
+  }
 
 
   return (
@@ -117,7 +113,9 @@ export default function EditDetails(props) {
                   label="User Name"
                   autoComplete="username"
                   onChange={handleChange}
-                  defaultValue="user name"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -130,7 +128,9 @@ export default function EditDetails(props) {
                   label="Password"
                   autoComplete="new-password"
                   onChange={handleChange}
-                  defaultValue="Password"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -144,7 +144,9 @@ export default function EditDetails(props) {
                   label="User Photo"
                   onChange={handleChange}
                   //value={currentUser ? currentUser.photoUser : ''}
-                  //defaultValue="User Photo"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -157,7 +159,9 @@ export default function EditDetails(props) {
                   autoComplete="given-name"
                   onChange={handleChange}
                   value={currentUser ? currentUser.firstName : ''}
-                  defaultValue="First Name"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                 />
               </Grid>
               <Grid item xs={12} sm={6}>
@@ -170,7 +174,9 @@ export default function EditDetails(props) {
                   autoComplete="family-name"
                   onChange={handleChange}
                   value={currentUser ? currentUser.lastName : ''}
-                  defaultValue="Last Name"
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -185,8 +191,9 @@ export default function EditDetails(props) {
                   autoComplete="dateUser"
                   onChange={handleChange}
                   value={currentUser ? currentUser.dateUser : ''}
-                  defaultValue="Date"
-                
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -205,7 +212,9 @@ export default function EditDetails(props) {
                       type="text"
                       name="cityUser"
                       autoComplete="cityUser"
-                      defaultValue="City User"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
                     />
                   )}
                 />
@@ -220,8 +229,9 @@ export default function EditDetails(props) {
                   autoComplete="streetName"
                   onChange={handleChange}
                   value={currentUser ? currentUser.streetName : ''}
-                  defaultValue="Street Name"
-
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
                 />
               </Grid>
               <Grid item xs={6}>
@@ -230,11 +240,12 @@ export default function EditDetails(props) {
                   required
                   fullWidth
                   name="homeNumber"
-                  id="homeNumber"
+                  // id="homeNumber"
+                  id="outlined-homeNumber"
                   label="Home Number"
                   autoComplete="homeNumber"
                   onChange={handleChange}
-                  defaultValue="Home Number"
+                  // defaultValue="Home Number"
                   value={currentUser ? currentUser.homeNumber : ''}
                   inputProps={{
                     min: "0" // מגביל את הערך המינימלי לספרה אחת
@@ -248,7 +259,7 @@ export default function EditDetails(props) {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign Up
+              Confirm
             </Button>
           </Box>
         </Box>
