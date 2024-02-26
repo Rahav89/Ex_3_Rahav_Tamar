@@ -247,7 +247,7 @@ export default function Register(props) {
     };
 
     // פונקציה שמעבירה לאבא אם לחצתי על הכפתור של ההרשמה
-    const changePageToLogIn = () =>{
+    const changePageToLogIn = () => {
         props.moveToLogInFlag(true);
     }
 
@@ -330,7 +330,10 @@ export default function Register(props) {
                                     error={formErrors.photoUser}
                                     helperText={formErrors.photoUser ? 'Only JPG or JPEG files are allowed.' : ""}
                                     onChange={handleChange}
-                                  
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -385,6 +388,9 @@ export default function Register(props) {
                                     error={formErrors.dateUser}
                                     helperText={formErrors.dateUser ? 'Age must be between 18 and 120 years old.' : ''}
                                     onChange={handleChange}
+                                    InputLabelProps={{
+                                        shrink: true,
+                                      }}
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -440,7 +446,7 @@ export default function Register(props) {
                             </Grid>
                             <Grid item>
                                 <Link variant="body2" onClick={changePageToLogIn}>
-                                    {"Already have an account? Click to sign in"}
+                                    {"Already have an account? Click to Sign In"}
                                 </Link>
                             </Grid>
 

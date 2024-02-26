@@ -27,13 +27,13 @@ const countries = [
 ];
 
 export default function EditDetails(props) {
-
+  //לבדוק את היוזר
   let currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
   if (!currentUser) {
     props.showEditDetail(false);
 
   }
-  //לבדוק את היוזר
+
 
   // אובייקט של הטופס - useState 
   const [formData, setFormData] = useState({
