@@ -103,20 +103,21 @@ export default function Login(props) {
       Swal.fire("Logged in successfully", "Welcome back!", "success").then((result) => {
         // Check if the user clicked the "OK" button
         if (result.isConfirmed) {
-          props.LoggedInAdmin(true);
-          props.LoggedIn(false);
+          sessionStorage.setItem('currentUser', JSON.stringify("admin"));
+          props.LoggedInAdmin(true);//תציג לי את האדמין
+          props.LoggedIn(false);//אל תציג את הפרופיל
         }
       });
     } else if (currentUser && isUserNameValid && isPasswordValid) {
       //לשמור אותו בסטורג אם מצאנו אותו
       sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
-      props.putLoggedUser(currentUser)
+      props.putLoggedUser(currentUser);
       //הודעה שהיוזר התחבר בהצלחה
       Swal.fire("Logged in successfully", "Welcome back!", "success").then((result) => {
         // Check if the user clicked the "OK" button
         if (result.isConfirmed) {
-          props.LoggedIn(true);
-          props.LoggedInAdmin(false);
+          props.LoggedIn(true);//תציג לי את הפרופיל
+          props.LoggedInAdmin(false);//אל תציג לי את האדמין
         }
       });
     }

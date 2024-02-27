@@ -41,7 +41,7 @@ export default function Proflie(props) {
                         <EmailIcon></EmailIcon >{currentUser.email}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        <HomeIcon></HomeIcon>{currentUser.streetName}
+                        <HomeIcon></HomeIcon>{currentUser.streetName} {currentUser.homeNumber} , {currentUser.cityUser} 
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
                         <CakeIcon></CakeIcon>{currentUser.dateUser}

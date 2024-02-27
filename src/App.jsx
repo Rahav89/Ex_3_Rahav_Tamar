@@ -21,17 +21,19 @@ export default function App() {
   const [loggedInFlagAdmin, setLoggedInFlagAdmin] = useState(false);//admin 
   const [users, setUsers] = useState([]);//מערך של יוזרים
   const [currentLoggedUser, setCurrentLoggedUser] = useState();//יוזר מחובר
+  const [userToUpdate, setUserToUpdate] = useState();//יוזר שעליו עושים עדכון
 
+  
   useEffect(() => {
-    // Call loadUsers function and use the returned array as needed
     let usersFromLS = loadUsers();
     let loggedUser = loadCurrentLoggedUser();
     setCurrentLoggedUser(loggedUser);
+    setUserToUpdate(loggedUser);
     setUsers(usersFromLS);
     console.log(usersFromLS);
   }, []); // Empty dependency array ensures this effect runs only once after initial render
 
-  //מביאה מהסאן סטורג את המחובר 
+  //מביאה מהסאן סטורג את היוזר המחובר 
   const loadCurrentLoggedUser = () => {
     return sessionStorage.currentUser ? JSON.parse(sessionStorage.currentUser) : null
   }
@@ -46,7 +48,6 @@ export default function App() {
       return [];
     }
   };
-
 
   //פונקציה המקבלת את פרטי המשתמש , יוצרת משתמש חדש ומוסיפה אותו למאגר המשתמשים
   const registerUser = (userFromChildRegister) => {
@@ -75,6 +76,25 @@ export default function App() {
   const showEditDetailComp = (flag) => {
     setEditDetailFlag(flag);
   }
+  
+  
+  const getUserFromAdmin = (user)=>{
+    setUserToUpdate(user);
+  }
+  
+  
+
+  //פונקצית מחיקה של היוזר 
+  const deleteUserFromApp = (userEmail) => {
+    let usersCopy = [...users]; // יצירת עותק של המערך
+    let userIndex = usersCopy.findIndex(user => user.email === userEmail); // מציאת אינדקס של המשתמש למחיקה
+
+    if (userIndex !== -1) {
+      usersCopy.splice(userIndex, 1); // מחיקת המשתמש מהעותק
+      setUsers(usersCopy); // עדכון המערך המקורי
+      localStorage.setItem('users', JSON.stringify(usersCopy));//שמירה בלוקאל 
+    }
+  };
 
   // פונקציה המקבלת את כל פרטי המשתמש ומעדכנת אותם
   const editUserFromApp = (userToUpDate) => {
@@ -84,10 +104,12 @@ export default function App() {
     const newUsers = [userToUpDate, ...otherUsers];
     setUsers(newUsers);//עושים סאט ליוזרים החדשים
     localStorage.setItem('users', JSON.stringify(newUsers));//שומרים אותם בלוקלסטורג
-    sessionStorage.setItem('currentUser', JSON.stringify(userToUpDate));//מעדכנים בסאן סטורג את היוזרים שהשתנו
     setCurrentLoggedUser(userToUpDate);//עושים סאט ליוזרים החדשים
+    if(loggedInFlagAdmin){
+      return;
+    }
+    sessionStorage.setItem('currentUser', JSON.stringify(userToUpDate));//מעדכנים בסאן סטורג את היוזרים שהשתנו
   };
-
 
   //- פונקציה המקבלת את כתובת המייל של משתמש מסויים ובודקת אם הוא
   //אכן משתמש המחובר
@@ -100,9 +122,6 @@ export default function App() {
     return;
   }
 
-
-
-
   return (
     <>
       {movePage_Register_LoIn ?
@@ -111,13 +130,14 @@ export default function App() {
         <Register sendUserToApp={registerUser} moveToLogInFlag={changePage} />
       }
 
-      {loggedInFlag? 
+      {loggedInFlag ?
         <Proflie user={currentLoggedUser} logoutfromApp={logoutUser}
           LoggedIn={showProflie} showEditDetail={showEditDetailComp} /> : ''
 
       }
 
-      {loggedInFlagAdmin ? <SystemAdmin usersListFromApp={users} showEditDetail={showEditDetailComp} /> : ''}
+      {loggedInFlagAdmin ? <SystemAdmin usersListFromApp={users} sendUserToApp={getUserFromAdmin}
+        showEditDetail={showEditDetailComp} deleteDetail={deleteUserFromApp} /> : ''}
 
 
       {(!loggedInFlag && !loggedInFlagAdmin) ?
@@ -137,7 +157,7 @@ export default function App() {
         </Grid > : ''}
 
       {/*   לשלוח את היוזר הספציפי שמחובר ואז נוכל לעדכן לו את הפרטים שלו  */}
-      {editDetailFlag ? <EditDetails user={currentLoggedUser}
+      {editDetailFlag ? <EditDetails user={userToUpdate}
         editUser={editUserFromApp} showEditDetail={showEditDetailComp} /> : ''}
 
 

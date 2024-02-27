@@ -13,16 +13,11 @@ import { Typography } from '@mui/material';
 
 export default function SystemAdmin(props) {
 
-
   let userList = props.usersListFromApp;
 
-
-  const editDetail = () => {
+  const editDetail = (user) => {
     props.showEditDetail(true);
-}
-
-  const deleteDetail = () => {
-
+    props.sendUserToApp(user);
   }
 
   return (
@@ -66,8 +61,8 @@ export default function SystemAdmin(props) {
               <TableCell align="left">{`${user.cityUser}, ${user.streetName} ${user.homeNumber}`}</TableCell>
               <TableCell align="left">{user.email}</TableCell>
               <TableCell>
-                <CreateIcon sx={{ color: 'pink' }} onClick={editDetail} />
-                <DeleteIcon sx={{ color: 'blue' }} onClick={() => deleteDetail(user)} />
+                <CreateIcon sx={{ color: 'pink' }} onClick={() => editDetail(user)} />
+                <DeleteIcon sx={{ color: 'blue' }} onClick={() => props.deleteDetail(user.email)} />
               </TableCell>
             </TableRow>
           ))}
