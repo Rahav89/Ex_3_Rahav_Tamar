@@ -44,15 +44,21 @@ export default function Login(props) {
 
   //פונקציה הבודקת את הולידציה של שם משתמש
   function validateUserName(userName) {
-    // תבנית של אותיות לועזיות בלבד מספרים ותווים מיוחדים
     const regex = /^[a-zA-Z0-9!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]*$/;
+    if (formData.userName === "admin") {
+      return formData.userName;
+    }
+    // תבנית של אותיות לועזיות בלבד מספרים ותווים מיוחדים
     // אם האורך מתחת ל 60 תווים וגם עומד בתנאי התווים של התבנית true מחזיר
     return userName.length <= 60 && regex.test(userName) && userName != '';
   }
 
   //פונקציה הבודקת את הולידציה של הסיסמא
   function validatePassword(password) {
-    //בודק שהסיסמא בין 7 ל-12 תווים 
+    if (formData.password === "ad12343211ad") {
+      return formData.password;
+    }
+    //בודק שהסיסמא בין 7 ל-12 תווים
     if (password.length < 7 || password.length > 12) {
       return false;
     }
@@ -93,22 +99,24 @@ export default function Login(props) {
     //בדיקה האם המשתמש קיים
     let currentUser = loginUser(formData.userName, formData.password);
 
-    if (currentUser && isUserNameValid && isPasswordValid) {
-      //לשמור אותו בסטורג אם מצאנו אותו
-      sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
-      //הודעה שהיוזר התחבר בהצלחה
-      Swal.fire("Logged in successfully", "Welcome back!", "success").then((result) => {
-        // Check if the user clicked the "OK" button
-        if (result.isConfirmed) {
-            props.LoggedIn(true);
-        }
-    });
-    }
-    else if (formData.userName === "admin" && formData.password === "ad12343211ad") {
+    if (formData.userName === "admin" && formData.password === "ad12343211ad") {
       Swal.fire("Logged in successfully", "Welcome back!", "success").then((result) => {
         // Check if the user clicked the "OK" button
         if (result.isConfirmed) {
           props.LoggedInAdmin(true);
+          props.LoggedIn(false);
+        }
+      });
+    } else if (currentUser && isUserNameValid && isPasswordValid) {
+      //לשמור אותו בסטורג אם מצאנו אותו
+      sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+      props.putLoggedUser(currentUser)
+      //הודעה שהיוזר התחבר בהצלחה
+      Swal.fire("Logged in successfully", "Welcome back!", "success").then((result) => {
+        // Check if the user clicked the "OK" button
+        if (result.isConfirmed) {
+          props.LoggedIn(true);
+          props.LoggedInAdmin(false);
         }
       });
     }
@@ -121,6 +129,7 @@ export default function Login(props) {
     }
   }
 
+  
   //פונקציה המקבלת שם משתמש וסיסמה ובודקת אם קיים משתמש שפרטיו זהים
   const loginUser = (username, password) => {
     console.log(username, password);

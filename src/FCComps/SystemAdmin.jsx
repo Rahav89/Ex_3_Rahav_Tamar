@@ -19,7 +19,7 @@ export default function SystemAdmin(props) {
 
   const editDetail = () => {
     props.showEditDetail(true);
-  }
+}
 
   const deleteDetail = () => {
 
@@ -66,7 +66,7 @@ export default function SystemAdmin(props) {
               <TableCell align="left">{`${user.cityUser}, ${user.streetName} ${user.homeNumber}`}</TableCell>
               <TableCell align="left">{user.email}</TableCell>
               <TableCell>
-                <CreateIcon sx={{ color: 'pink' }} onClick={() => editDetail(user)} />
+                <CreateIcon sx={{ color: 'pink' }} onClick={editDetail} />
                 <DeleteIcon sx={{ color: 'blue' }} onClick={() => deleteDetail(user)} />
               </TableCell>
             </TableRow>

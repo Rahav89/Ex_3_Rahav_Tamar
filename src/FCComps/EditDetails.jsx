@@ -29,7 +29,7 @@ const countries = [
 export default function EditDetails(props) {
 
   //לבדוק את היוזר
-  let currentUser = JSON.parse(sessionStorage.getItem('currentUser'));
+  let currentUser = props.user; //להתייחס ליוזר הספציפי שמחובר
   if (!currentUser) {
     props.showEditDetail(false);
   }
@@ -162,38 +162,13 @@ export default function EditDetails(props) {
       Swal.fire("Changed Successfully!", "User changed", "success").then((result) => {
         // Check if the user clicked the "OK" button
         if (result.isConfirmed) {
-          editUser(formData);
-          // Reload the current page
-          window.location.reload();
-
+          props.editUser(formData);
         }
       });
 
     }
   };
 
-  // פונקציה המקבלת את כל פרטי המשתמש ומעדכנת אותם
-  const editUser = (user) => {
-
-    let userToUpDate = user;
-
-    //דורסים את היוזר המחובר בסאשן ושומרים את המעודכן
-    sessionStorage.setItem('currentUser', JSON.stringify(userToUpDate));
-
-    // מערך של משתמשים בלוקל סטוראג
-    let usersArray = JSON.parse(localStorage.getItem('users')) || [];
-
-    // מוצאים את המשתמש במערך ומחליפים אותו
-    usersArray.forEach((user_i, index) => {
-      if (user_i.email === userToUpDate.email) {
-        usersArray[index] = userToUpDate;
-      }
-    });
-
-    // שומרים את המערך המעודכן בלוקל סטוראג
-    localStorage.setItem('users', JSON.stringify(usersArray));
-
-  };
 
   return (
     <ThemeProvider theme={createTheme()}>
